@@ -2,16 +2,16 @@
 
 @section('admin')
 
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <div class="page-content">
 
-
-
 <nav class="page-breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Admin</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Add Product</li>
+        <li class="breadcrumb-item active" aria-current="page">Product</li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
     </ol>
 </nav>
 
@@ -20,13 +20,14 @@
     <div class="card">
     <div class="card-body">
 
-                <h6 class="card-title">Add Product</h6>
+                <h3 class="mb-3">Edit Product</h3>
                 <!-- <div class="d-flex justify-content-end">
                     <button class="btn btn-primary">Primary</button>
                 </div> -->
 
-                <form method="POST" action=" {{ route('admin.product.store') }} " enctype="multipart/form-data">
-                @csrf 
+                <form method="POST" action="{{ route('admin.update.product', $product->id) }}" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
 
 
                     <div class="mb-3">
@@ -57,7 +58,7 @@
                         <textarea id="description" name="description" class="form-control" rows="8" placeholder="Enter a detailed description of your product..."></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+                    <button type="submit" class="btn btn-primary me-2">Update Product</button>
                     <button class="btn btn-secondary">Cancel</button>
                 </form>
 
@@ -78,5 +79,6 @@
     });
   });
 </script>
+
 
 @endsection

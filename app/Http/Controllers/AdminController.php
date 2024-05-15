@@ -19,8 +19,9 @@ class AdminController extends Controller
 {
     public function AdminDashboard(){
         $totalbooks = Book::count();
+        $students = User::where('role', 'student')->get();
     
-        return view('admin.index', compact('totalbooks'));
+        return view('admin.index', compact('totalbooks', 'students'));
     } // end method
 
     public function AdminLogout(Request $request): RedirectResponse
@@ -31,7 +32,7 @@ class AdminController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/admin/login');
+        return redirect('/');
     }  // end method
 
     public function AdminLogin(){
@@ -85,17 +86,17 @@ class AdminController extends Controller
     // admin product category   
 
 
-    public function AdminProductCategories()
-    {
-        return view('admin.category.admin_category');
-    }
+    // public function AdminProductCategories()
+    // {
+    //     return view('admin.category.admin_category');
+    // }
 
 
 
-    public function AdminCreateProductCategories()
-    {
-        return view('admin.category.admin_add_category');
-    }
+    // public function AdminCreateProductCategories()
+    // {
+    //     return view('admin.category.admin_add_category');
+    // }
 
 
 
@@ -105,68 +106,50 @@ class AdminController extends Controller
     
     // admin product
 
-    public function AdminProduct(){
+    public function AdminBook(){
         $books = Book::all();
-        return view('admin.product/admin_product',compact('books'));
+        return view('admin.book/admin_book',compact('books'));
     } // end method
 
 
-    public function AdminAddProduct(){
-        return view('admin.product/admin_add_product');
+    public function AdminAddBook(){
+        return view('admin.book/admin_add_book');
     } // end method
 
-    public function AdminProductStore(Request $request)
+    public function adminBookStore(Request $request)
     {
-        $validatedInput = $request->validate([ // Rename to validatedInput
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'name' => 'required|string|max:255',
-            'price' => 'nullable|string|min:0',
-            'stock' => 'nullable|string|min:0',
-            'description' => 'required|string',
+        $validatedData = $request->validate([
+            'title' => 'nullable|string',
+            'author' => 'nullable|string',
+            'edition' => 'nullable|string',
+            'quantity' => 'nullable|integer|min:0',
+            'description' => 'nullable|string',
         ]);
-
-
-        //Handle photo upload (if uploaded)
-
-        if ($request->file('photo')) {
-            $photo = $request->file('photo');
-            // @unlink(public_path('upload/admin_images/'.$data->photo));
-            $photoName = date('YmdHi').$photo->getClientOriginalName();
-            $photo->move(public_path('upload/admin_images'), $photoName);
-            $validatedInput['photo'] = $photoName;
-        }
-
-
-
+        
+        Book::create($validatedData);
     
-        $book = Book::create($validatedInput);
-    
-        $notification = array(
-            'message' => 'Product Added Successfully',
-            'alter-type' => 'success'
-        );
-
-
-        return redirect()->back()->with($notification);
-    } // end method
-
-
-    public function AdminProductSingleview($id){
-        $book = Book::findOrFail($id);
-        return view('admin.product/admin_product_single', compact('book'));
+        return redirect()->route('admin.book')->with([
+            'message' => 'Book Added Successfully',
+            'alert-type' => 'success'
+        ]);
     }
 
+    // public function AdminProductSingleview($id){
+    //     $book = Book::findOrFail($id);
+    //     return view('admin.product/admin_product_single', compact('book'));
+    // }
 
 
-    public function AdminEditProduct($id)
+
+    public function AdminEditBook($id)
     {
         $book = Book::findOrFail($id); // Find the product by ID
     
-        return view('admin.product.admin_edit_product', compact('book'));
+        return view('admin.book.admin_edit_book', compact('book'));
     }
 
 
-    public function AdminUpdateProduct(Request $request, $id){
+    public function AdminUpdateBook(Request $request, $id){
         $book = Book::find($id);
         $book->name = $request->input('name');
         $book->price = $request->input('price');
@@ -186,13 +169,50 @@ class AdminController extends Controller
         $book->save();
     
         $notification = [
-            'message' => 'Product Updated Successfully',
+            'message' => 'Book Updated Successfully',
             'alter-type' => 'success'
         ];
     
         return redirect()->back()->with($notification);
     }
 
+
+
+    //     public function CourseTeacherQuestionChapterStore(Request $request, $id)
+    // {
+    //     // Validate the incoming request data
+    //     $validatedData = $request->validate([
+    //         'questionchapter' => 'required|string|max:255',
+    //     ]);
+    
+    //     // Retrieve the authenticated user
+    //     $userId = Auth::id();
+    //     $user = Questioncreator::findOrFail($userId);
+    
+    //     // Retrieve the course ID associated with the user
+    //     $courseId = $user->course_id;
+    
+    //     // Fetch the category based on the provided ID
+    //     $category = QuestionCategory::findOrFail($id);
+    
+    //     // Create a new QuestionSet instance
+    //     $questionchapter = new QuestionChapter();
+    //     $questionchapter->name = $validatedData['questionchapter'];
+    //     $questionchapter->course_id = $courseId;
+    //     $questionchapter->questionCategory_id = $category->id;
+    
+    //     // Save the question set to the database
+    //     $questionchapter->save();
+    
+    //     // Redirect back with a success message
+    //     $notification = [
+    //         'message' => 'Question Chapter Added Successfully',
+    //         'alert-type' => 'success'
+    //     ];
+    
+    //     // Redirect to the appropriate route with the necessary parameters
+    //     return redirect()->route('course.teacher.question.chapter', ['id' => $category->id])->with($notification);
+    // }
 
 
 

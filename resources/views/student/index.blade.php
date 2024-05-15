@@ -36,7 +36,7 @@
             </div>
             <div class="row">
               <div class="col-6 col-md-12 col-xl-5">
-                <h3 class="mb-2">{{ $totalbooks }}</h3>
+                <h3 class="mb-2">34534</h3>
               </div>
             </div>
           </div>
@@ -64,7 +64,7 @@
             </div>
             <div class="row">
               <div class="col-6 col-md-12 col-xl-5">
-                <h3 class="mb-2">{{ $totalbooks }}</h3>
+                <h3 class="mb-2">3453</h3>
               </div>
             </div>
           </div>

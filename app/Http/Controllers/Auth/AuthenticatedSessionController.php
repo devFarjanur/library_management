@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         // Determine redirect URL based on user role
         $url = match ($request->user()->role) {
             'admin' => 'admin/dashboard',
-            'user'  => '/dashboard',
+            'student'  => '/dashboard',
             default => '/', // Default redirect for unrecognized roles
         };
     
