@@ -91,4 +91,30 @@ class ProfileController extends Controller
 
 
 
+    public function SearchBook(Request $request)
+    {
+        // Retrieve search criteria from the request
+        $title = $request->input('title');
+        $author = $request->input('author');
+
+        // Retrieve all books initially
+        $query = Book::query();
+
+        // Apply search criteria if provided
+        if ($title) {
+            $query->where('title', 'like', '%' . $title . '%');
+        }
+
+        if ($author) {
+            $query->where('author', 'like', '%' . $author . '%');
+        }
+
+        // Perform search based on criteria
+        $searchResults = $query->get();
+
+        return view('dashboard', compact('searchResults'));
+    }
+
+
+
 }

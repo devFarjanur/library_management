@@ -25,7 +25,9 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
 
 
-    Route::get('/student/dashboard', [ProfileController::class, 'StudentDashboard'])->name('dashboard');
+    Route::get('/student/book', [ProfileController::class, 'StudentDashboard'])->name('dashboard');
+    Route::get('student/search/book', [ProfileController::class, 'searchBooks'])->name('search.book');
+
 
 
     Route::get('/student/profile', [ProfileController::class, 'edit'])->name('profile.edit');
