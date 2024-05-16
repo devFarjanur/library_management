@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BorrowApproval;
+use App\Models\BorrowRequest;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Storage;
@@ -104,7 +106,7 @@ class AdminController extends Controller
 
 
     
-    // admin product
+    // admin book
 
     public function AdminBook(){
         $books = Book::all();
@@ -178,135 +180,67 @@ class AdminController extends Controller
 
 
 
-    //     public function CourseTeacherQuestionChapterStore(Request $request, $id)
-    // {
-    //     // Validate the incoming request data
-    //     $validatedData = $request->validate([
-    //         'questionchapter' => 'required|string|max:255',
-    //     ]);
-    
-    //     // Retrieve the authenticated user
-    //     $userId = Auth::id();
-    //     $user = Questioncreator::findOrFail($userId);
-    
-    //     // Retrieve the course ID associated with the user
-    //     $courseId = $user->course_id;
-    
-    //     // Fetch the category based on the provided ID
-    //     $category = QuestionCategory::findOrFail($id);
-    
-    //     // Create a new QuestionSet instance
-    //     $questionchapter = new QuestionChapter();
-    //     $questionchapter->name = $validatedData['questionchapter'];
-    //     $questionchapter->course_id = $courseId;
-    //     $questionchapter->questionCategory_id = $category->id;
-    
-    //     // Save the question set to the database
-    //     $questionchapter->save();
-    
-    //     // Redirect back with a success message
-    //     $notification = [
-    //         'message' => 'Question Chapter Added Successfully',
-    //         'alert-type' => 'success'
-    //     ];
-    
-    //     // Redirect to the appropriate route with the necessary parameters
-    //     return redirect()->route('course.teacher.question.chapter', ['id' => $category->id])->with($notification);
-    // }
+
+
+    public function AdminBorrowRequest()
+    {
+        // Fetch all borrow requests for admins
+        $borrowRequests = BorrowRequest::all();
+
+        return view('admin.book.admin_borrow_request', compact('borrowRequests'));
+    }
 
 
 
-
-    
-
-
-    // public function AdminUpdateProduct(Product $product, Request $request)
-    // {
-    //     $this->validate($request, [
-    //         'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-    //         'name' => 'required|string|max:255',
-    //         'price' => 'nullable|string|min:0',
-    //         'stock' => 'nullable|string|min:0',
-    //         'description' => 'required|string',
-    //     ]);
-
-
-
-    //     if ($request->file('photo'))
-    //     {
-    //         $file = $request->file('photo');
-    //         @unlink(public_path('upload/admin_images/'.$product->photo));
-    //         $filename = date('YmdHi').$file->getClientOriginalName();
-    //         $file->move(public_path('upload/admin_images'), $filename);
-    //         $product->photo = $filename;
-    //     }
-
-    //     $product->update($request->all());
-
-    //     $notification = array(
-    //         'message' => 'Product updated Successfully',
-    //         'alert-type' => 'success'
-    //     );
-
-    //     return redirect()->back()->with($notification);
-    // }
-
-
-    // public function AdminUpdateProduct(Request $request, $id){
-
-    //     $product = Product::find($id);
-    //     $product-> photo = $request->input('photo');
-    //     $product-> name = $request->input('name');
-    //     $product-> price = $request->input('price');
-    //     $product-> stock = $request->input('stock');
-    //     $product-> description = $request->input('description');
-
-    //     // if($request->hasfile('photo')){
-
-    //     //     $destination = 'upload/admin_images/'.$product->photo;
-    //     //     if(File::exits($destination))
-    //     //     {
-    //     //         File::delete($destination);
-    //     //     }
-
-    //     //     $file = $request->file('photo');
-    //     //     $extention = $file->getClientOriginalExtension();
-    //     //     $filename = time().'.'.$extention;
-    //     //     $file->move('uploads/admin/', $filename);
-    //     //     $product->photo = $filename;
-    //     // }
-
-    //     if ($request->hasFile('photo')) {
-    //         $photo = $request->file('photo');
-    //         $filename = time() . '.' . $photo->getClientOriginalExtension();
+    public function AdminApproveBorrowRequest(Request $request, BorrowRequest $borrowRequest)
+    {
+        // Check if the authenticated user has the 'admin' role
+        if (auth()->user()->role !== 'admin') {
+            return abort(403, 'Unauthorized');
+        }
         
-    //         // Use Storage facade for file operations
-    //         Storage::putFile('upload/admin_images/', $photo, $filename, 'public');
-        
-    //         // Remove old image using Storage facade (if exists)
-    //         if ($product->photo) {
-    //             Storage::delete('upload/admin_images/' . $product->photo);
-    //         }
-        
-    //         $product->photo = $filename;
-    //     }
+        // Find the book related to the borrow request
+        $book = $borrowRequest->book;
+
+        // Decrement the quantity of the book
+        $book->decrement('quantity');
+
+        // Create a new entry in borrow_approvals table
+        BorrowApproval::create([
+            'borrow_request_id' => $borrowRequest->id,
+            'admin_id' => auth()->user()->id,
+            'status' => 'approved'
+        ]);
+
+        // Update the status of the borrow request to approved
+        $borrowRequest->update(['status' => 'approved']);
+
+        return redirect()->back()->with('success', 'Borrow request approved successfully. Book quantity decremented.');
+    }
     
 
 
-
-    //     $product->update();
-
-    //     $notification = array(
-    //         'message' => 'Product Updateded Successfully',
-    //         'alter-type' => 'success'
-    //     );
+    public function AdminRejectBorrowRequest(Request $request, BorrowRequest $borrowRequest)
+    {
+        // Check if the user is authorized to reject borrow requests
 
 
-    //     return redirect()->back()->with($notification);
-
-
-
-    // }
+        if (auth()->user()->role !== 'admin') {
+            return abort(403, 'Unauthorized');
+        }
+    
+        // Create a new entry in borrow_approvals table
+        BorrowApproval::create([
+            'borrow_request_id' => $borrowRequest->id,
+            'admin_id' => auth()->user()->id,
+            'status' => 'rejected'
+        ]);
+        
+        // Update the status of the borrow request to rejected
+        $borrowRequest->update(['status' => 'rejected']);
+    
+        return redirect()->back()->with('success', 'Borrow request rejected successfully.');
+    }
 
 
 

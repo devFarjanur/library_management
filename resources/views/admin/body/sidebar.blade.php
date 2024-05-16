@@ -31,7 +31,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#order" role="button" aria-expanded="false" aria-controls="order">
+            <a class="nav-link" href="{{ route('admin.borrow.request') }}">
               <i class="link-icon" data-feather="alert-circle"></i>
               <span class="link-title">Issue Book</span>
             </a>

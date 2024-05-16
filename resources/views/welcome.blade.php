@@ -111,6 +111,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a href="{{ route('dashboard') }}" class="nav-link">Home</a>
+
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">About</a>

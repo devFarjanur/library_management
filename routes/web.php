@@ -25,17 +25,22 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
 
 
-    Route::get('/student/book', [ProfileController::class, 'StudentDashboard'])->name('dashboard');
-    Route::get('student/search/book', [ProfileController::class, 'searchBooks'])->name('search.book');
 
-
-
+    Route::get('/dashboard', [ProfileController::class, 'StudentDashboard'])->name('dashboard');
     Route::get('/student/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/student/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/student/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Define the search book route
+    Route::get('/student/search-book', [ProfileController::class, 'StudentSearchBook'])->name('student.search.book');
+
+    Route::post('/student/borrow/{book}', [ProfileController::class, 'StudentBookBorrow'])->name('student.borrow.book');
+    Route::get('/student/borrow-list', [ProfileController::class, 'StudentBookBorrowList'])->name('student.borrow.book.list');
+
+
 
 });
+
 
 require __DIR__.'/auth.php';
 
@@ -51,27 +56,21 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/change/password', [AdminController::class, 'AdminChangePassword'])->name('admin.change.password');
     Route::post('/admin/update/password', [AdminController::class, 'AdminUpdatePassword'])->name('admin.update.password');
 
-
-
-    // admin category
-
-    // Route::get('/admin/product-categories', [AdminController::class, 'AdminProductCategories'])->name('admin.product.categories');
-    // Route::get('/admin/create-product-categories', [AdminController::class, 'AdminCreateProductCategories'])->name('admin.create.product.categories');
-    // Route::get('/admin/product-categories-store', [AdminController::class, 'AdminProductCategoriesStore'])->name('admin.product.categories.store');
-
-
-    // admin product
+    // admin boook
 
     Route::get('/admin/book', [AdminController::class, 'AdminBook'])->name('admin.book');
     Route::get('/admin/add/book', [AdminController::class, 'AdminAddBook'])->name('admin.add.book');
     Route::post('/admin/book/store', [AdminController::class, 'AdminBookStore'])->name('admin.book.store');
     
     Route::get('/admin/book/view', [AdminController::class, 'AdminBookView'])->name('admin.Book.view');
-    // Route::get('/admin/product/{id}', [AdminController::class, 'AdminProductSingleview'])->name('admin.product.singleview');
-    // Route::get('/admin/product/{id}/edit', [AdminController::class, 'AdminEditProduct'])->name('admin.edit.product');
-    Route::put('/admin/book/update/{id}', [AdminController::class, 'AdminUpdateBook'])->name('admin.update.book');
 
-    
+    Route::put('/admin/book/update/{id}', [AdminController::class, 'AdminUpdateBook'])->name('admin.update.book');
+    Route::get('/admin/book/borrow-request', [AdminController::class, 'AdminBorrowRequest'])->name('admin.borrow.request');
+
+    Route::post('/admin/approve-borrow-request/{borrowRequest}', [AdminController::class, 'AdminApproveBorrowRequest'])->name('admin.approve.borrow.request');
+    Route::post('/admin/reject-borrow-request/{borrowRequest}', [AdminController::class, 'AdminRejectBorrowRequest'])->name('admin.reject.borrow.request');
+
+
 
 });  // End Admin group middleware
 
@@ -79,25 +78,3 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
 
 
-
-Route::middleware(['auth', 'role:student'])->group(function () {
-    Route::get('/student/book', [StudentController::class, 'StudentBook'])->name('student.book');
-    Route::get('/student/logout', [StudentController::class, 'StudentLogout'])->name('student.logout');
-    Route::get('/student/Profile', [StudentController::class, 'StudentProfile'])->name('student.profile');
-    Route::post('/student/Profile/store', [StudentController::class, 'StudentProfileStore'])->name('student.profile.store');
-    Route::get('/student/change/password', [StudentController::class, 'StudentChangePassword'])->name('student.change.password');
-    Route::post('/student/update/password', [StudentController::class, 'StudentUpdatePassword'])->name('student.update.password');
-
-
-
-
-
-    // student book
-
-    Route::get('/student/book', [StudentController::class, 'StudentBook'])->name('student.book');
-
-});  // End student group middleware
-
-
-
-Route::get('/student/login', [StudentController::class, 'StudentLogin'])->name('student.login');
