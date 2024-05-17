@@ -26,16 +26,21 @@
                                                 <td>{{ $borrowRequest->book->title }}</td>
                                                 <td>{{ $borrowRequest->status }}</td>
                                                 <td>
-                                                    @if ($borrowRequest->approvals->count() > 0)
-                                                        @if ($borrowRequest->approvals->last()->status === 'approved')
-                                                            Approved
-                                                        @elseif ($borrowRequest->approvals->last()->status === 'rejected')
-                                                            Rejected
-                                                        @endif
+                                                    @if ($borrowRequest->approvals->contains('status', 'returned'))
+                                                        Returned
                                                     @else
-                                                        No decision yet
+                                                        @if ($borrowRequest->approvals->count() > 0)
+                                                            @if ($borrowRequest->approvals->last()->status === 'approved')
+                                                                Approved
+                                                            @elseif ($borrowRequest->approvals->last()->status === 'rejected')
+                                                                Rejected
+                                                            @endif
+                                                        @else
+                                                            No decision yet
+                                                        @endif
                                                     @endif
                                                 </td>
+
                                             </tr>
                                             @endforeach
                                         </tbody>
