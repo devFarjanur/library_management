@@ -8,7 +8,7 @@
 	<meta name="author" content="NobleUI">
 	<meta name="keywords" content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
-	<title>Admin Panel - Learning Management System</title>
+	<title>Admin Panel - Library Management System</title>
 	
 	
 
@@ -87,7 +87,7 @@
   <script src="{{ asset('backend/assets/js/dashboard-dark.js') }}"></script>
 	<!-- End custom js for this page -->
 
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script>
  @if(Session::has('message'))

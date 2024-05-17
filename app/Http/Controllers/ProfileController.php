@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BorrowApproval;
 use App\Models\BorrowRequest;
+use App\Models\ReturnBook;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Storage;
@@ -176,8 +177,66 @@ class ProfileController extends Controller
         return view('layouts.book.student_borrow_list', compact('borrowRequests'));
     }
 
+    public function StudentReturnBookList()
+    {
+        // Fetch borrow requests for the current student
+        $borrowRequests = BorrowApproval::where('user_id', auth()->user()->id)->get();
+
+        return view('layouts.book.student_return_list', compact('borrowRequests'));
+    }
+
+
+
+    
+
+    public function ReturnBook(Request $request, BorrowApproval $borrowApproval)
+    {
+        try {
+            // Find the book related to the borrow request
+            $book = $borrowApproval->book;
+    
+            // Increment the quantity of the book
+            $book->increment('quantity');
+    
+            // Calculate fine
+            $fine = $borrowApproval->calculateFine();
+            $message = 'Book returned successfully.';
+    
+            // Update BorrowApproval status, fine, and returned_at
+            $borrowApproval->update([
+                'returned_at' => now(),
+                'status' => 'returned',
+                'fine' => $fine,
+            ]);
+    
+            // Prepare notification
+            $notification = [
+                'message' => $message . ($fine > 0 ? ' You have a fine of $' . $fine . ' for late return.' : ''),
+                'alert-type' => 'success'
+            ];
+    
+            // Redirect back with notification
+            return redirect()->back()->with($notification);
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            \Log::error('Error returning book: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Failed to return the book.']);
+        }
+    }
+    
+
+
+    
+}
     
 
 
 
-}
+    
+
+
+    
+
+
+
+

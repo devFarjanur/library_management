@@ -37,6 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/student/borrow/{book}', [ProfileController::class, 'StudentBookBorrow'])->name('student.borrow.book');
     Route::get('/student/borrow-list', [ProfileController::class, 'StudentBookBorrowList'])->name('student.borrow.book.list');
 
+    Route::get('/student/return-book-list', [ProfileController::class, 'StudentReturnBookList'])->name('student.return.book.list');
+    Route::post('/student/return-book/{borrowApproval}', [ProfileController::class, 'ReturnBook'])->name('student.return.book');
+
 
 
 });
@@ -69,6 +72,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::post('/admin/approve-borrow-request/{borrowRequest}', [AdminController::class, 'AdminApproveBorrowRequest'])->name('admin.approve.borrow.request');
     Route::post('/admin/reject-borrow-request/{borrowRequest}', [AdminController::class, 'AdminRejectBorrowRequest'])->name('admin.reject.borrow.request');
+
+    Route::get('/admin/returned-books', [AdminController::class, 'AdminReturnedBook'])->name('admin.returned.book');
+
+
 
 
 

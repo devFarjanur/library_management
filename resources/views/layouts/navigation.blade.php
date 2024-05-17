@@ -18,8 +18,13 @@
 
 
 
-                    <x-nav-link :href="route('student.borrow.book.list')">
-                        {{ __('Issue Book') }}
+                    <x-nav-link :href="route('student.borrow.book.list')" :active="request()->routeIs('student.borrow.book.list')">
+                        {{ __('Borrow Request') }}
+                    </x-nav-link>
+
+
+                    <x-nav-link :href="route('student.return.book.list')" :active="request()->routeIs('student.return.book.list')">
+                        {{ __('Return Book') }}
                     </x-nav-link>
 
 

@@ -21,9 +21,12 @@ class AdminController extends Controller
 {
     public function AdminDashboard(){
         $totalbooks = Book::count();
+        $totalstudents = User::where('role', 'student')->count();
+        $totalborrowed = BorrowApproval::where('status', 'approved')->count();
+        $totalreturned = BorrowApproval::where('status', 'returned')->count();
         $students = User::where('role', 'student')->get();
     
-        return view('admin.index', compact('totalbooks', 'students'));
+        return view('admin.index', compact('totalbooks', 'totalstudents', 'students', 'totalborrowed', 'totalreturned'));
     } // end method
 
     public function AdminLogout(Request $request): RedirectResponse
@@ -185,7 +188,7 @@ class AdminController extends Controller
     public function AdminBorrowRequest()
     {
         // Fetch all borrow requests for admins
-        $borrowRequests = BorrowRequest::all();
+        $borrowRequests = BorrowRequest::with('user')->get();
 
         return view('admin.book.admin_borrow_request', compact('borrowRequests'));
     }
@@ -208,7 +211,9 @@ class AdminController extends Controller
         // Create a new entry in borrow_approvals table
         BorrowApproval::create([
             'borrow_request_id' => $borrowRequest->id,
+            'user_id' => $borrowRequest->user_id,
             'admin_id' => auth()->user()->id,
+            'book_id' => $borrowRequest->book_id,
             'status' => 'approved'
         ]);
 
@@ -232,7 +237,9 @@ class AdminController extends Controller
         // Create a new entry in borrow_approvals table
         BorrowApproval::create([
             'borrow_request_id' => $borrowRequest->id,
+            'user_id' => $borrowRequest->user_id,
             'admin_id' => auth()->user()->id,
+            'book_id' => $borrowRequest->book_id,
             'status' => 'rejected'
         ]);
         
@@ -242,6 +249,20 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Borrow request rejected successfully.');
     }
 
+
+
+    public function AdminReturnedBook()
+    {
+        // Fetch the returned books
+        $returnedBooks = BorrowApproval::where('status', 'returned')->with('user', 'book')->get();
+
+        // Pass the returned books to the view
+        return view('admin.book.admin_return_list', compact('returnedBooks'));
+    }
+
+
+
+    
 
 
 

@@ -11,6 +11,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Student Name</th>
                                     <th>Book Title</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -20,6 +21,7 @@
                                 @foreach ($borrowRequests as $borrowRequest)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $borrowRequest->user->name }}</td>
                                         <td>{{ $borrowRequest->book->title }}</td>
                                         <td>{{ $borrowRequest->status }}</td>
                                         <td>
