@@ -25,7 +25,7 @@ class AdminController extends Controller
         $totalstudents = User::where('role', 'student')->count();
         $totalborrowed = BorrowApproval::where('status', 'approved')->count();
         $totalreturned = BorrowApproval::where('status', 'returned')->count();
-        $students = User::where('role', 'student')->get();
+        $students = User::where('role', 'student')->where('approved', true)->get();
         $payments = Payment::all();
     
         return view('admin.index', compact('totalbooks', 'totalstudents', 'students', 'totalborrowed', 'totalreturned', 'payments'));
@@ -56,6 +56,58 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with($notification);
 
     }
+
+
+
+
+    public function AdminRequestStudent()
+    {
+        // Fetch pending course teacher requests where approved is false
+        $pendingStudentRequests = User::where('role', 'student')->where('approved', false)->get();
+        
+        return view('admin.Membership_student', compact('pendingStudentRequests'));
+    }
+
+
+    public function approveStudent($id)
+    {
+        $student = User::find($id);
+        if ($student) {
+            $student->approved = true;
+            $student->save();
+        }
+
+
+        // Redirect back with a success message
+        $notification = array(
+            'message' => 'Student approved successfully.',
+            'alert-type' => 'success'
+        );
+            
+        return redirect()->back()->with($notification);
+
+
+    }
+
+
+    public function rejectStudent($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+
+                // Redirect back with a success message
+        $notification = array(
+            'message' => 'Student rejected and removed successfully.',
+            'alert-type' => 'success'
+        );
+                    
+
+
+        return redirect()->back()->with($notification);
+    }
+
+    
 
 
 

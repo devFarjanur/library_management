@@ -51,6 +51,12 @@ class User extends Authenticatable
     }
 
 
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class, 'payment_id');
+    }
+
+
 
 
 }

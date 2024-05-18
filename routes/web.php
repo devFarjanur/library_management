@@ -62,6 +62,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/add-payment', [AdminController::class, 'AdminAddPayment'])->name('admin.add.payment');
     Route::post('/admin/paymentstore', [AdminController::class, 'AdminStorePayment'])->name('admin.store.payment');
 
+
+    Route::get('/admin/student', [AdminController::class, 'AdminRequestStudent'])->name('admin.request.student');
+    Route::put('/admin/approve-student/{id}', [AdminController::class, 'approveStudent'])->name('admin.approve.student');
+    Route::delete('/admin/reject-student/{id}', [AdminController::class, 'rejectStudent'])->name('admin.reject.student');
+
     // admin boook
 
     Route::get('/admin/book', [AdminController::class, 'AdminBook'])->name('admin.book');

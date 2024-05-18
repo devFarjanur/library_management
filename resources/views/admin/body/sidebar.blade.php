@@ -22,6 +22,12 @@
             </a>
           </li>
         
+          <li class="nav-item">
+            <a href="{{ route('admin.request.student') }}" class="nav-link">
+              <i class="link-icon" data-feather="book"></i>
+              <span class="link-title">Membership Request</span>
+            </a>
+          </li>
 
 
           <li class="nav-item">

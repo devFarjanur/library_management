@@ -25,19 +25,28 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        // Authenticate the user
+        $credentials = $request->only('email', 'password');
+        $credentials['approved'] = true; // Ensure user is approved
+    
+        if (!Auth::attempt($credentials)) {
+            return redirect()->route('login')->withErrors([
+                'email' => 'These credentials do not match our records or the account is not approved.',
+            ]);
+        }
     
         $request->session()->regenerate();
     
         // Determine redirect URL based on user role
         $url = match ($request->user()->role) {
             'admin' => 'admin/dashboard',
-            'student'  => '/dashboard',
+            'student' => '/dashboard',
             default => '/', // Default redirect for unrecognized roles
         };
     
         return redirect()->intended($url);
     }
+    
 
     /**
      * Destroy an authenticated session.
