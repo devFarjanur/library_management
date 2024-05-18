@@ -45,6 +45,14 @@
             </a>
           </li>
 
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.report') }}">
+              <i class="link-icon" data-feather="alert-circle"></i>
+              <span class="link-title">Admin Report</span>
+            </a>
+          </li>
+
           
         </ul>
       </div>

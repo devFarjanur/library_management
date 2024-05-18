@@ -9,7 +9,7 @@
                                 <div class="card-header">Borrow Requests</div>
 
                                 <div class="card-body text-center">
-                                    @if (count($borrowRequests) > 0)
+                                    @if ($borrowRequests->isNotEmpty())
                                     <table class="table mx-auto">
                                         <thead>
                                             <tr>
@@ -27,20 +27,22 @@
                                                 <td>{{ $borrowRequest->status }}</td>
                                                 <td>
                                                     @if ($borrowRequest->approvals->contains('status', 'returned'))
-                                                        Returned
+                                                        <button class="btn btn-secondary btn-sm" disabled>Returned</button>
                                                     @else
-                                                        @if ($borrowRequest->approvals->count() > 0)
-                                                            @if ($borrowRequest->approvals->last()->status === 'approved')
-                                                                Approved
-                                                            @elseif ($borrowRequest->approvals->last()->status === 'rejected')
-                                                                Rejected
+                                                        @php
+                                                            $lastApproval = $borrowRequest->approvals->last();
+                                                        @endphp
+                                                        @if ($lastApproval)
+                                                            @if ($lastApproval->status === 'approved')
+                                                                <button class="btn btn-success btn-sm" disabled>Approved</button>
+                                                            @elseif ($lastApproval->status === 'rejected')
+                                                                <button class="btn btn-danger btn-sm" disabled>Rejected</button>
                                                             @endif
                                                         @else
-                                                            No decision yet
+                                                            <button class="btn btn-warning btn-sm" disabled>No decision yet</button>
                                                         @endif
                                                     @endif
                                                 </td>
-
                                             </tr>
                                             @endforeach
                                         </tbody>

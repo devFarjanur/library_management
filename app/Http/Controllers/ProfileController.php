@@ -149,7 +149,20 @@ class ProfileController extends Controller
             ];
             return redirect()->back()->with($notification);
         }
-
+    
+        // Check if the student has already borrowed this book and not returned it
+        $existingBorrowRequest = BorrowRequest::where('user_id', auth()->user()->id)
+            ->where('book_id', $book->id)
+            ->where('status', '!=', 'returned')
+            ->exists();
+    
+        if ($existingBorrowRequest) {
+            $notification = [
+                'message' => 'You have already borrowed this book and not returned it.',
+                'alert-type' => 'error'
+            ];
+            return redirect()->back()->with($notification);
+        }
     
         // Create a new borrow request
         $borrowRequest = new BorrowRequest();

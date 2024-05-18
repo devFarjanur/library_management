@@ -59,6 +59,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/change/password', [AdminController::class, 'AdminChangePassword'])->name('admin.change.password');
     Route::post('/admin/update/password', [AdminController::class, 'AdminUpdatePassword'])->name('admin.update.password');
 
+    Route::get('/admin/add-payment', [AdminController::class, 'AdminAddPayment'])->name('admin.add.payment');
+    Route::post('/admin/paymentstore', [AdminController::class, 'AdminStorePayment'])->name('admin.store.payment');
+
     // admin boook
 
     Route::get('/admin/book', [AdminController::class, 'AdminBook'])->name('admin.book');
@@ -76,6 +79,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/returned-books', [AdminController::class, 'AdminReturnedBook'])->name('admin.returned.book');
 
 
+    Route::get('/admin/report', [AdminController::class, 'AdminReport'])->name('admin.report');
 
 
 

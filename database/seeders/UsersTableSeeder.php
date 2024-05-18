@@ -25,6 +25,7 @@ class UsersTableSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make('123456789'),
                 'role' => 'admin',
+                'approved' => true, // Set approved to true for admin
                 'status' => 'active'
             ],
         ]);

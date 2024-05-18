@@ -14,7 +14,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Book Title</th>
-                                    <th>User</th>
+                                    <th>Student Name</th>
                                     <th>Returned At</th>
                                     <th>Fine</th>
                                 </tr>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BorrowApproval;
 use App\Models\BorrowRequest;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Storage;
@@ -25,9 +26,39 @@ class AdminController extends Controller
         $totalborrowed = BorrowApproval::where('status', 'approved')->count();
         $totalreturned = BorrowApproval::where('status', 'returned')->count();
         $students = User::where('role', 'student')->get();
+        $payments = Payment::all();
     
-        return view('admin.index', compact('totalbooks', 'totalstudents', 'students', 'totalborrowed', 'totalreturned'));
+        return view('admin.index', compact('totalbooks', 'totalstudents', 'students', 'totalborrowed', 'totalreturned', 'payments'));
     } // end method
+
+
+    Public function AdminAddPayment()
+    {
+        return view('admin.admin_add_payment');
+    }
+
+
+    Public function AdminStorePayment(Request $request)
+    {
+        $validatedData = $request->validate([
+            'paymentmethod' => 'required|string|max:255', // Update the field name
+        ]);
+    
+        $payment = new Payment();
+        $payment->payment_method_name = $request->paymentmethod; // Update the field name
+        $payment->save();
+
+        $notification = array(
+            'message' => 'Payment Method added successfully.',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin.dashboard')->with($notification);
+
+    }
+
+
+
 
     public function AdminLogout(Request $request): RedirectResponse
     {
@@ -261,7 +292,36 @@ class AdminController extends Controller
     }
 
 
-
+    public function AdminReport()
+    {
+        $students = User::where('role', 'student')->get();
+    
+        $reportData = $students->map(function($student) {
+            $totalBooksBorrowed = $student->borrowRequests()->count();
+            $totalBooksReturned = $student->borrowRequests()->whereHas('approvals', function ($query) {
+                $query->where('status', 'returned');
+            })->count();
+            $totalBooksNotReturned = $totalBooksBorrowed - $totalBooksReturned;
+            $totalFine = $student->borrowRequests()->with('approvals')->get()->sum(function($borrowRequest) {
+                return $borrowRequest->approvals->sum('fine');
+            });
+            $totalBooksPending = $student->borrowRequests()->where('status', 'pending')->count();
+            $totalBooksRejected = $student->borrowRequests()->where('status', 'rejected')->count();
+    
+            return [
+                'student_name' => $student->name,
+                'student_email' => $student->email,
+                'total_books_borrowed' => $totalBooksBorrowed,
+                'total_books_pending' => $totalBooksPending,
+                'total_books_rejected' => $totalBooksRejected,
+                'total_books_returned' => $totalBooksReturned,
+                'total_books_not_returned' => $totalBooksNotReturned,
+                'total_fine' => $totalFine,
+            ];
+        });
+    
+        return view('admin.admin_report', compact('reportData'));
+    }
     
 
 
