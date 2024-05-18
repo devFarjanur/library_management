@@ -6,7 +6,7 @@
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-12">
-                                <div class="card-header">Borrow Requests</div>
+                                <div class="card-header text-xl mb-4">Borrow Requests</div>
 
                                 <div class="card-body text-center">
                                     @if ($borrowRequests->isNotEmpty())

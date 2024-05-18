@@ -4,7 +4,7 @@
         <div class="mx-auto sm:px-6 lg:px-6">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <h6 class="card-title mb-3">Book List</h6>
+                    <h6 class="card-title mb-4 text-xl">Book List</h6>
 
                     <!-- Search Form -->
                     <form action="{{ route('student.search.book') }}" method="GET" class="mb-4">
