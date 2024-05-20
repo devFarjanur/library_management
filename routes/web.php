@@ -20,6 +20,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/get-membership', function () {
+    return view('get');
+})->name('getmembership');
+
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
+
+
 
 
 Route::middleware('auth')->group(function () {
@@ -39,6 +50,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/student/return-book-list', [ProfileController::class, 'StudentReturnBookList'])->name('student.return.book.list');
     Route::post('/student/return-book/{borrowApproval}', [ProfileController::class, 'ReturnBook'])->name('student.return.book');
+
+    Route::get('/student/feedback/create', [ProfileController::class, 'create'])->name('feedback.create');
+    Route::post('/student/feedback/store', [ProfileController::class, 'store'])->name('feedback.store');
 
 
 
@@ -73,9 +87,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/add/book', [AdminController::class, 'AdminAddBook'])->name('admin.add.book');
     Route::post('/admin/book/store', [AdminController::class, 'AdminBookStore'])->name('admin.book.store');
     
+    Route::get('/admin/book/edit/{id}', [AdminController::class, 'editBook'])->name('admin.edit.book');
+    Route::put('/admin/book/update/{id}', [AdminController::class, 'updateBook'])->name('admin.update.book');
+    Route::delete('/admin/book/delete/{id}', [AdminController::class, 'deleteBook'])->name('admin.delete.book');
+
+    
     Route::get('/admin/book/view', [AdminController::class, 'AdminBookView'])->name('admin.Book.view');
 
-    Route::put('/admin/book/update/{id}', [AdminController::class, 'AdminUpdateBook'])->name('admin.update.book');
+   
     Route::get('/admin/book/borrow-request', [AdminController::class, 'AdminBorrowRequest'])->name('admin.borrow.request');
 
     Route::post('/admin/approve-borrow-request/{borrowRequest}', [AdminController::class, 'AdminApproveBorrowRequest'])->name('admin.approve.borrow.request');
@@ -85,6 +104,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 
     Route::get('/admin/report', [AdminController::class, 'AdminReport'])->name('admin.report');
+
+    Route::get('/admin/feedback', [AdminController::class, 'index'])->name('feedback.index');
 
 
 

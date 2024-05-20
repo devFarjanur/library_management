@@ -3,12 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
+    <title>Contact Us - Laravel</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <!-- Custom CSS -->
     <style>
         .navbar-brand {
@@ -269,90 +271,6 @@
         </div>
     </nav>
 
-    <section>
-        <div class="hero">
-            <div class="hero-overlay bg-dark"></div>
-            <div class="hero-content text-center text-light">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-md-8">
-                            <h1 class="display-3">Library Management System</h1>
-                            <p class="lead">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-                            <button class="btn btn-primary btn-lg">Get Started</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="membership-info text-center">
-                        <h2 class="mb-4">Unlock the World of Knowledge</h2>
-                        <p class="lead mb-4">Become a member of our library to access an extensive collection of books, digital resources, and exclusive services.</p>
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <div class="card border-0">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Membership Benefits</h5>
-                                        <ul class="list-unstyled">
-                                            <li><i class="bi bi-check-circle-fill text-primary me-2"></i> Unlimited access to our library resources</li>
-                                            <li><i class="bi bi-check-circle-fill text-primary me-2"></i> Priority booking for events and workshops</li>
-                                            <li><i class="bi bi-check-circle-fill text-primary me-2"></i> Personalized recommendations</li>
-                                            <li><i class="bi bi-check-circle-fill text-primary me-2"></i> Discounts on partner services</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card border-0">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Membership Fee</h5>
-                                        <p class="fee">1000 Taka <span class="text-muted">(One-time payment)</span></p>
-                                        <p class="text-muted">Membership fee is non-refundable.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="payment-methods">
-                            <h5 class="mb-3">Payment Methods</h5>
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <div class="card border-0">
-                                        <div class="card-body">
-                                            <h6 class="card-title">Bkash</h6>
-                                            <p class="card-text">Pay to: <strong>017XXXXXXXX</strong></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="card border-0">
-                                        <div class="card-body">
-                                            <h6 class="card-title">Nagad</h6>
-                                            <p class="card-text">Pay to: <strong>018XXXXXXXX</strong></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="card border-0">
-                                        <div class="card-body">
-                                            <h6 class="card-title">Upay</h6>
-                                            <p class="card-text">Pay to: <strong>019XXXXXXXX</strong></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary mt-4" onclick="window.location.href='{{ route('register') }}'">Register Now</button>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-    </section>
 
     <section class="contact-section py-5">
         <div class="container">

@@ -55,19 +55,19 @@
 
 									<div class="mb-3">
 										<label for="exampleInputUsername1" class="form-label">Name</label>
-										<input type="text" name="name" class="form-control" id="name" autocomplete="off">
+										<input type="text" name="name" class="form-control" id="name" autocomplete="off" value="{{ $profileData->name }}">
 									</div>
 									<div class="mb-3">
 										<label for="email" class="form-label">Email address</label>
-										<input type="email" name="email" class="form-control" id="email">
+										<input type="email" name="email" class="form-control" id="email" value="{{ $profileData->email }}">
 									</div>
 									<div class="mb-3">
 										<label for="phone" class="form-label">Phone</label>
-										<input type="text" name="phone" class="form-control" id="phone" autocomplete="off" >
+										<input type="text" name="phone" class="form-control" id="phone" autocomplete="off" value="{{ $profileData->phone }}">
 									</div>
                   <div class="mb-3">
 										<label for="photo" class="form-label">Photo</label>
-										<input name="photo" type="file" class="form-control" id="image" autocomplete="off" >
+										<input name="photo" type="file" class="form-control" id="image" autocomplete="off" value="{{ $profileData->photo }}">
                     
 									</div>
                   <div class="mb-3">

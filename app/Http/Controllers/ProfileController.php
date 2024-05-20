@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Models\BorrowApproval;
 use App\Models\BorrowRequest;
+use App\Models\Feed;
+use App\Models\Feedback;
 use App\Models\ReturnBook;
 use Illuminate\Http\Request;
 
@@ -192,19 +194,24 @@ class ProfileController extends Controller
 
     public function StudentReturnBookList()
     {
-        // Fetch borrow requests for the current student
-        $borrowRequests = BorrowApproval::where('user_id', auth()->user()->id)->get();
-
+        // Fetch borrow requests for the current student with statuses "approved" or "returned"
+        $borrowRequests = BorrowApproval::where('user_id', auth()->user()->id)
+                                        ->whereIn('status', ['approved', 'returned'])
+                                        ->get();
+    
         return view('layouts.book.student_return_list', compact('borrowRequests'));
     }
-
-
-
+    
     
 
     public function ReturnBook(Request $request, BorrowApproval $borrowApproval)
     {
         try {
+            // Check if the book is already returned
+            if ($borrowApproval->status === 'returned') {
+                return redirect()->back()->withErrors(['error' => 'The book is already returned.']);
+            }
+    
             // Find the book related to the borrow request
             $book = $borrowApproval->book;
     
@@ -224,7 +231,7 @@ class ProfileController extends Controller
     
             // Prepare notification
             $notification = [
-                'message' => $message . ($fine > 0 ? ' You have a fine of $' . $fine . ' for late return.' : ''),
+                'message' => $message . ($fine > 0 ? ' You have a fine of ' . $fine . ' Taka for late return.' : ''),
                 'alert-type' => 'success'
             ];
     
@@ -235,9 +242,31 @@ class ProfileController extends Controller
             \Log::error('Error returning book: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'Failed to return the book.']);
         }
+    }    
+
+
+    public function create()
+    {
+        return view('layouts.book.feedback');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        Feed::create([
+            'user_id' => auth()->user()->id,
+            'content' => $request->input('content'),
+        ]);
+
+        return redirect()->back()->with([
+            'message' => 'Feedback submitted successfully.',
+            'alert-type' => 'success',
+        ]);
     }
     
-
 
     
 }

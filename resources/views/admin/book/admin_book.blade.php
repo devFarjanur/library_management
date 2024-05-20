@@ -24,28 +24,37 @@
             <div class="card-body">
                 <h6 class="card-title">Book List</h6>
                 <div class="table-responsive">
-                        <table class="table table-hover text-center"> <!-- Added text-center class -->
-                            <thead>
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Edition</th>
+                                <th>Quantity</th>
+                                <th>Action</th> <!-- Added this header for action buttons -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($books as $book)
                                 <tr>
-                                    <th>#</th>
-                                    <th>Title</th>
-                                    <th>Author</th>
-                                    <th>Edition</th>
-                                    <th>Quantity</th>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $book->title }}</td>
+                                    <td>{{ $book->author }}</td>
+                                    <td>{{ $book->edition }}</td>
+                                    <td>{{ $book->quantity }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.edit.book', $book->id) }}" class="btn btn-info btn-sm">Edit</a>
+                                        <form action="{{ route('admin.delete.book', $book->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($books as $book)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $book->title }}</td>
-                                        <td>{{ $book->author }}</td>
-                                        <td>{{ $book->edition }}</td> <!-- Assuming this is how you access the course name -->
-                                        <td>{{ $book->quantity }}</td> <!-- Assuming this is how you access the role -->
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -55,4 +64,3 @@
 </div>
 
 @endsection
-

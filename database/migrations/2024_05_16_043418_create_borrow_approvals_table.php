@@ -15,7 +15,7 @@ class CreateBorrowApprovalsTable extends Migration
             $table->foreignId('admin_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('book_id')->constrained('books')->onDelete('cascade');
             $table->enum('status', ['approved', 'rejected', 'returned'])->default('approved');
-            $table->timestamp('return_due_date')->nullable(); // No default value here
+            $table->timestamp('return_due_date')->nullable();
             $table->timestamp('returned_at')->nullable();
             $table->integer('fine')->default(0);
             $table->timestamps();

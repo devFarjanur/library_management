@@ -16,6 +16,7 @@
                                                 <th>Title</th>
                                                 <th>Status</th>
                                                 <th>Return Due Date</th>
+                                                <th>Returned At</th>
                                                 <th>Fine</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -24,13 +25,18 @@
                                             @foreach($borrowRequests as $borrowApproval)
                                                 <tr>
                                                     <td>{{ $borrowApproval->borrowRequest->book->title }}</td>
-                                                    <td>{{ $borrowApproval->status }}</td>
-                                                    <td>{{ $borrowApproval->return_due_date }}</td>
+                                                    <td>{{ ucfirst($borrowApproval->status) }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($borrowApproval->return_due_date)->format('Y-m-d H:i:s') }}</td>
+                                                    <td>{{ $borrowApproval->returned_at ? \Carbon\Carbon::parse($borrowApproval->returned_at)->format('Y-m-d H:i:s') : 'Not returned yet' }}</td>
                                                     <td>
-                                                        @if($borrowApproval->isLate())
-                                                            {{ $borrowApproval->calculateFine() }} Taka ({{ $borrowApproval->calculateFine() / 100 }} seconds late)
+                                                        @if($borrowApproval->status === 'returned')
+                                                            {{ $borrowApproval->fine }} Taka
                                                         @else
-                                                            No fine
+                                                            @if($borrowApproval->isLate())
+                                                                {{ $borrowApproval->calculateFine() }} Taka ({{ $borrowApproval->calculateFine() / 100 }} seconds late)
+                                                            @else
+                                                                No fine
+                                                            @endif
                                                         @endif
                                                     </td>
                                                     <td>

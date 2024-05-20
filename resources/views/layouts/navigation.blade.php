@@ -27,6 +27,11 @@
                         {{ __('Return Book') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('feedback.create')" :active="request()->routeIs('feedback.create')">
+                        {{ __('Feedback') }}
+                    </x-nav-link>
+
+
 
 
 

@@ -25,31 +25,14 @@ class BorrowApproval extends Model
 
     public function isLate()
     {
-        // Cast return_due_date to Carbon instance if it's a string
-        $returnDueDate = $this->return_due_date instanceof Carbon ? $this->return_due_date : new Carbon($this->return_due_date);
-
-        // Debugging: Log the return_due_date and current time
-        \Log::info('Return Due Date: ' . $returnDueDate->toDateTimeString());
-        \Log::info('Current Time: ' . Carbon::now()->toDateTimeString());
-
-        // Check if the current time is greater than the return due date
-        return Carbon::now()->greaterThan($returnDueDate);
+        return Carbon::now()->greaterThan($this->return_due_date);
     }
 
     public function calculateFine()
     {
         if ($this->isLate()) {
-            // Cast return_due_date to Carbon instance if it's a string
-            $returnDueDate = $this->return_due_date instanceof Carbon ? $this->return_due_date : new Carbon($this->return_due_date);
-
-            // Calculate seconds late
-            $secondsLate = Carbon::now()->diffInSeconds($returnDueDate);
-
-            // Debugging: Log the seconds late and fine
-            \Log::info('Seconds Late: ' . $secondsLate);
-            \Log::info('Fine: ' . $secondsLate * 100);
-
-            return $secondsLate * 100; // Fine amount per second, e.g., 100 units per second
+            $secondsLate = Carbon::now()->diffInSeconds($this->return_due_date);
+            return $secondsLate * 100; // Fine amount per second
         }
         return 0;
     }

@@ -51,6 +51,13 @@
             </a>
           </li>
 
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('feedback.index') }}">
+              <i class="link-icon" data-feather="alert-circle"></i>
+              <span class="link-title">Student Feedback</span>
+            </a>
+          </li>
 
           <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.report') }}">

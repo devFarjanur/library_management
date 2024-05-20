@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
+    <title>Get Membership - Library Management System</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Fonts -->
@@ -65,7 +65,7 @@
             background-repeat: no-repeat;
             background-size: cover;
             position: relative;
-            height: 600px;
+            height: 700px;
         }
         .hero-overlay {
             position: absolute;
@@ -146,71 +146,6 @@
         .link-hover:hover {
             text-decoration: underline;
         }
-        .contact-section {
-            background-color: #f8f9fa;
-            padding: 50px 0;
-        }
-        .contact-form {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .contact-form h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        .contact-form label {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-        .contact-form input, .contact-form textarea {
-            margin-bottom: 20px;
-        }
-        .contact-info {
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .contact-info h3 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .contact-info p {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .map-embed {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .faq-section {
-            padding: 50px 0;
-            background-color: #fff;
-        }
-        .faq-section h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        .faq-item {
-            margin-bottom: 20px;
-        }
-        .faq-item h5 {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-        .faq-item p {
-            font-size: 16px;
-            margin-bottom: 0;
-        }
-        @media (max-width: 768px) {
-            .contact-info, .contact-form {
-                margin-bottom: 20px;
-            }
-        }
     </style>
 </head>
 <body class="antialiased">
@@ -224,16 +159,15 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                 <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('getmembership') }}" class="nav-link">Membership</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('contact') }}" class="nav-link">Contact</a>
-                </li>
-
+                    <li class="nav-item">
+                        <a href="{{ route('dashboard') }}" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('getmembership') }}" class="nav-link">Membership</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('contact') }}" class="nav-link">Contact</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav social-icons">
                     <li class="nav-item">
@@ -268,23 +202,6 @@
             </div>
         </div>
     </nav>
-
-    <section>
-        <div class="hero">
-            <div class="hero-overlay bg-dark"></div>
-            <div class="hero-content text-center text-light">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-md-8">
-                            <h1 class="display-3">Library Management System</h1>
-                            <p class="lead">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-                            <button class="btn btn-primary btn-lg">Get Started</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <section class="py-5">
         <div class="container">
@@ -354,98 +271,6 @@
         </div>
     </section>
 
-    <section class="contact-section py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="contact-info">
-                        <h3>Contact Information</h3>
-                        <p><strong>Address:</strong> 1234 Street Name, City, State, Zip Code</p>
-                        <p><strong>Phone:</strong> (123) 456-7890</p>
-                        <p><strong>Email:</strong> info@example.com</p>
-                        <p><strong>Working Hours:</strong> Mon - Fri: 9:00 AM - 6:00 PM</p>
-                    </div>
-                    <div class="map-embed">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509738!2d144.95373531531635!3d-37.81720997975159!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf0727a167f7b7b7b!2sEnvato!5e0!3m2!1sen!2sus!4v1487640422005" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="contact-form">
-                        <h2>Get in Touch</h2>
-                        <form action="#" method="POST" id="contactForm">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
-                                <div class="invalid-feedback">
-                                    Please enter your name.
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                                <div class="invalid-feedback">
-                                    Please enter a valid email address.
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="message" class="form-label">Message</label>
-                                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-                                <div class="invalid-feedback">
-                                    Please enter your message.
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Send Message</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="faq-section py-5">
-        <div class="container">
-            <h2>Frequently Asked Questions</h2>
-            <div class="accordion" id="faqAccordion">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            What is your refund policy?
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Our refund policy allows for refunds within 30 days of purchase. Please contact our support team for more information.
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            How can I contact support?
-                        </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            You can contact our support team via email at support@example.com or call us at (123) 456-7890.
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            Do you offer custom services?
-                        </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Yes, we offer a variety of custom services to meet your needs. Please contact us for more information.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
 
     <footer class="footer py-5 bg-black text-white">
@@ -479,9 +304,6 @@
             </div>
         </div>
     </footer>
-
-
-
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

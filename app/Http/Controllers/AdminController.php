@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BorrowApproval;
 use App\Models\BorrowRequest;
+use App\Models\Feed;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class AdminController extends Controller
 {
     public function AdminDashboard(){
         $totalbooks = Book::count();
-        $totalstudents = User::where('role', 'student')->count();
+        $totalstudents = User::where('role', 'student')->where('approved', true)->count(); 
         $totalborrowed = BorrowApproval::where('status', 'approved')->count();
         $totalreturned = BorrowApproval::where('status', 'returned')->count();
         $students = User::where('role', 'student')->where('approved', true)->get();
@@ -207,11 +208,11 @@ class AdminController extends Controller
     public function adminBookStore(Request $request)
     {
         $validatedData = $request->validate([
-            'title' => 'nullable|string',
-            'author' => 'nullable|string',
-            'edition' => 'nullable|string',
-            'quantity' => 'nullable|integer|min:0',
-            'description' => 'nullable|string',
+            'title' => 'string',
+            'author' => 'string',
+            'edition' => 'string',
+            'quantity' => 'integer|min:0',
+            'description' => 'string',
         ]);
         
         Book::create($validatedData);
@@ -228,6 +229,39 @@ class AdminController extends Controller
     // }
 
 
+    public function editBook($id)
+    {
+        $book = Book::findOrFail($id);
+        return view('admin.book.admin_edit_book', compact('book'));
+    }
+
+    public function updateBook(Request $request, $id)
+    {
+        $book = Book::findOrFail($id);
+        $book->update($request->all());
+
+
+        return redirect()->route('admin.book')->with([
+            'message' => 'Book updated successfully.',
+            'alert-type' => 'success'
+        ]);
+
+    }
+
+    public function deleteBook($id)
+    {
+        $book = Book::findOrFail($id);
+        $book->delete();
+
+        return redirect()->route('admin.book')->with([
+            'message' => 'Book deleted successfully.',
+            'alert-type' => 'success'
+        ]);
+
+    }
+
+
+
 
     public function AdminEditBook($id)
     {
@@ -237,32 +271,32 @@ class AdminController extends Controller
     }
 
 
-    public function AdminUpdateBook(Request $request, $id){
-        $book = Book::find($id);
-        $book->name = $request->input('name');
-        $book->price = $request->input('price');
-        $book->stock = $request->input('stock');
-        $book->description = $request->input('description');
+    // public function AdminUpdateBook(Request $request, $id){
+    //     $book = Book::find($id);
+    //     $book->name = $request->input('title');
+    //     $book->price = $request->input('price');
+    //     $book->stock = $request->input('stock');
+    //     $book->description = $request->input('description');
 
-        if ($request->file('photo')) {
-            $file = $request->file('photo');
-            @unlink(public_path('upload/admin_images/'.$book->photo));
-            $filename = date('YmdHi').$file->getClientOriginalName();
-            $file->move(public_path('upload/admin_images'), $filename);
-            $book->photo = $filename;
-        }
+    //     if ($request->file('photo')) {
+    //         $file = $request->file('photo');
+    //         @unlink(public_path('upload/admin_images/'.$book->photo));
+    //         $filename = date('YmdHi').$file->getClientOriginalName();
+    //         $file->move(public_path('upload/admin_images'), $filename);
+    //         $book->photo = $filename;
+    //     }
 
 
     
-        $book->save();
+    //     $book->save();
     
-        $notification = [
-            'message' => 'Book Updated Successfully',
-            'alter-type' => 'success'
-        ];
+    //     $notification = [
+    //         'message' => 'Book Updated Successfully',
+    //         'alter-type' => 'success'
+    //     ];
     
-        return redirect()->back()->with($notification);
-    }
+    //     return redirect()->back()->with($notification);
+    // }
 
 
 
@@ -376,6 +410,11 @@ class AdminController extends Controller
     }
     
 
+    public function index()
+    {
+        $feedbacks = Feed::with('user')->latest()->get();
+        return view('admin.admin_feed', compact('feedbacks'));
+    }
 
 
 

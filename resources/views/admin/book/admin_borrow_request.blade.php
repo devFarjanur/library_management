@@ -1,6 +1,15 @@
 @extends('admin.admin_dashboard')
 
 @section('admin')
+
+
+    <nav class="page-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Book Borrow</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Book Borrow Request</li>
+        </ol>
+    </nav>
+
     <div class="page-content">
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
