@@ -24,8 +24,8 @@
         
           <li class="nav-item">
             <a href="{{ route('admin.request.student') }}" class="nav-link">
-              <i class="link-icon" data-feather="book"></i>
-              <span class="link-title">Membership Request</span>
+              <i class="link-icon" data-feather="user-plus"></i>
+              <span class="link-title">Membership</span>
             </a>
           </li>
 
@@ -46,7 +46,7 @@
 
           <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.returned.book') }}">
-              <i class="link-icon" data-feather="alert-circle"></i>
+              <i class="link-icon" data-feather="book-open"></i>
               <span class="link-title">Return Book</span>
             </a>
           </li>
@@ -54,14 +54,14 @@
           
           <li class="nav-item">
             <a class="nav-link" href="{{ route('feedback.index') }}">
-              <i class="link-icon" data-feather="alert-circle"></i>
+              <i class="link-icon" data-feather="user"></i>
               <span class="link-title">Student Feedback</span>
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.report') }}">
-              <i class="link-icon" data-feather="alert-circle"></i>
+              <i class="link-icon" data-feather="bookmark"></i>
               <span class="link-title">Admin Report</span>
             </a>
           </li>

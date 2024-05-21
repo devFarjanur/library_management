@@ -19575,7 +19575,7 @@ body {
 }
 
 .sidebar {
-  width: 240px;
+  width: 250px;
   height: 100%;
   position: fixed;
   left: 0;
@@ -19594,7 +19594,7 @@ body {
   padding: 0 25px;
   border-right: 1px solid #e9ecef;
   z-index: 999;
-  width: 240px;
+  width: 250px;
   -webkit-transition: width 0.1s ease;
   transition: width 0.1s ease;
 }
@@ -19874,7 +19874,7 @@ body {
 }
 .sidebar .sidebar-body .nav .nav-item .nav-link .link-title {
   margin-left: 30px;
-  font-size: 16px;
+  font-size: 20px;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
