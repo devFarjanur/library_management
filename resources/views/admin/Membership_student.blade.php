@@ -17,7 +17,7 @@
                     @if ($pendingStudentRequests->isEmpty())
                         <p>No pending requests found.</p>
                     @else
-                        <table class="table table-hover text-center"> <!-- Added text-center class -->
+                        <table class="table table-hover text-center">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -36,15 +36,17 @@
                                         <td>{{ $request->name }}</td>
                                         <td>{{ $request->email }}</td>
                                         <td>{{ $request->phone }}</td>
-                                        <td>{{ $request->payment->payment_method_name ?? 'N/A' }}</td> <!-- Displaying payment method name -->
+                                        <td>{{ $request->payment->payment_method_name ?? 'N/A' }}</td>
                                         <td>{{ $request->TrxID }}</td>
                                         <td>
                                             <div class="d-grid gap-2 d-md-flex justify-content-center">
-                                                <form method="POST" action="{{ route('admin.approve.student', $request->id) }}">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit" class="btn btn-primary me-md-2">Approve</button>
-                                                </form>
+                                            <form method="POST" action="{{ route('admin.approve.student', $request->id) }}">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-primary me-md-2">Approve</button>
+                                            </form>
+
+
                                                 <form method="POST" action="{{ route('admin.reject.student', $request->id) }}">
                                                     @csrf
                                                     @method('DELETE')
@@ -52,7 +54,6 @@
                                                 </form>
                                             </div>
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>
